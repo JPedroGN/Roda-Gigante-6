@@ -1,0 +1,550 @@
+:root {
+    /* Paleta de Cores Atualizada */
+    --laranja-frio: #D98359; 
+    --rosa: #c26d83;
+    --vermelho-carmesim: #990000;
+    --marrom-carvalho: #251304; 
+    
+    /* Fundo agora é o carmesim */
+    --cor-fundo: var(--vermelho-carmesim); 
+    
+    /* Fontes */
+    --fonte-titulos: 'Josefin Sans', sans-serif;
+    --fonte-cursiva: 'Great Vibes', cursive;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--fonte-titulos);
+}
+
+body {
+    background-color: var(--cor-fundo);
+    /* Matriz SVG: Roda gigante */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' width='120' height='120'><g stroke='%23D98359' stroke-width='1' fill='none' opacity='0.25'><polygon points='105,60 82.5,99 37.5,99 15,60 37.5,21 82.5,21' /><line x1='15' y1='60' x2='105' y2='60'/><line x1='37.5' y1='21' x2='82.5' y2='99'/><line x1='82.5' y1='21' x2='37.5' y2='99'/><circle cx='60' cy='60' r='8' fill='%23990000' /><circle cx='60' cy='60' r='3' /></g><g fill='%23D98359' opacity='0.5'><polygon points='102,60 105,54 108,60 105,66'/><polygon points='79.5,99 82.5,93 85.5,99 82.5,105'/><polygon points='34.5,99 37.5,93 40.5,99 37.5,105'/><polygon points='12,60 15,54 18,60 15,66'/><polygon points='34.5,21 37.5,15 40.5,21 37.5,27'/><polygon points='79.5,21 82.5,15 85.5,21 82.5,27'/></g></svg>");
+    background-size: 120px 120px;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--marrom-carvalho); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   EFEITOS DE LUZ E ANIMAÇÕES
+=========================================== */
+@keyframes lavaPeriferica {
+    0%   { background-position: 0% 0%; }
+    25%  { background-position: 100% 0%; }
+    50%  { background-position: 100% 100%; }
+    75%  { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; } 
+}
+
+/* ==========================================
+   ESTRELA DE CRISTAL INDEPENDENTE (GSAP CONTROLLED)
+=========================================== */
+
+.titulo-wrapper {
+    position: relative;
+    display: inline-block; 
+    text-align: center;
+}
+
+.estrela-brilho {
+    position: absolute;
+    top: 23%; 
+    right: 2.1%; 
+    z-index: 10;
+    pointer-events: none; 
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+}
+
+.estrela-brilho::before,
+.estrela-brilho::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: var(--rosa);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    box-shadow: 0 0 12px 3px var(--rosa); 
+}
+
+.estrela-brilho::before { width: 2px; height: 50px; }
+.estrela-brilho::after { width: 50px; height: 2px; }
+
+/* ==========================================
+   ESTILOS DOS CAMPOS (ESFERAS EM X COM SPANS)
+=========================================== */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+@keyframes vaiEsq {
+    0%, 100% { transform: translateX(-50%); } 
+    50%      { transform: translateX(-100%); } 
+}
+
+@keyframes vaiDir {
+    0%, 100% { transform: translateX(-50%); } 
+    50%      { transform: translateX(0%); }    
+}
+
+.luz-glow {
+    position: absolute;
+    left: 50%; 
+    width: 50%; 
+    height: 60%; 
+    border-radius: 50px;
+    filter: blur(12px);
+    mix-blend-mode: screen; 
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none; 
+}
+
+.superior-esquerda { top: -2px; background-color: var(--rosa); }
+.inferior-esquerda { bottom: -2px; background-color: var(--laranja-frio); }
+.superior-direita { top: -2px; background-color: var(--laranja-frio); }
+.inferior-direita { bottom: -2px; background-color: var(--rosa); }
+
+.input-wrapper:focus-within .luz-glow {
+    opacity: 0.85;
+}
+
+.input-wrapper:focus-within .superior-esquerda,
+.input-wrapper:focus-within .inferior-esquerda {
+    animation: vaiEsq 4s ease-in-out infinite;
+}
+
+.input-wrapper:focus-within .superior-direita,
+.input-wrapper:focus-within .inferior-direita {
+    animation: vaiDir 4s ease-in-out infinite;
+}
+
+/* ==========================================
+   ESTILOS DA FACHADA
+=========================================== */
+#fachada {
+    width: 100%;
+    max-width: 450px; 
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    margin-top: 5vh;
+}
+
+#fachada h1 {
+    font-family: var(--fonte-cursiva);
+    font-size: 4.5rem; 
+    font-weight: normal;
+    padding-top: 0.2em; 
+    padding-right: 0.15em;
+    padding-bottom: 0.1em; 
+
+    background: linear-gradient(
+        110deg, 
+        var(--laranja-frio) 40%, 
+        var(--rosa) 50%, 
+        var(--laranja-frio) 60%
+    );
+    background-size: 300% 100%; 
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; 
+}
+
+#fachada p {
+    font-family: var(--fonte-titulos);
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: var(--marrom-carvalho);
+    font-weight: 600;
+}
+
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ==========================================
+   ESTILOS DOS CAMPOS E BOTÃO
+=========================================== */
+input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--marrom-carvalho);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    background-color: var(--marrom-carvalho);
+    color: var(--vermelho-carmesim);
+    text-align: center;
+    font-family: var(--fonte-titulos);
+    font-weight: 900;
+    position: relative;
+    z-index: 1;
+    transition: border-color 0.3s ease;
+}
+
+input::placeholder {
+    color: rgba(217, 131, 89, 0.5);
+    font-weight: 600;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--marrom-carvalho); 
+}
+
+button {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(45deg, var(--laranja-frio), var(--rosa), var(--laranja-frio), var(--rosa), var(--laranja-frio));
+    background-size: 400% 400%;
+    animation: lavaPeriferica 6s linear infinite;
+    color: var(--marrom-carvalho);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.3rem;
+    font-family: var(--fonte-titulos);
+    font-weight: 900;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#mensagem-erro {
+    color: var(--marrom-carvalho);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* ==========================================
+   ESTILOS DO CABEÇALHO E GALERIA (PADDING FLEXÍVEL)
+=========================================== */
+#cabecalho {
+    position: sticky;
+    top: 0;
+    background-color: var(--vermelho-carmesim);
+    width: 100%;
+    
+    /* Padding vertical absorve os ascendentes da Great Vibes sem cortar */
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    
+    /* overflow visible para não cortar as letras cursivas */
+    overflow: visible;
+    
+    border-bottom: 2px solid var(--marrom-carvalho);
+    box-shadow: 0px 4px 15px rgba(37, 19, 4, 0.5); 
+    
+    transition: padding 0.3s ease, 
+                box-shadow 0.3s ease, 
+                border-color 0.3s ease;
+    will-change: padding;
+}
+
+/* O Casulo da estrela e do texto */
+#cabecalho .titulo-wrapper {
+    position: relative;
+    display: inline-block; 
+    text-align: center;
+}
+
+
+
+/* Nome do Restaurante no Cabeçalho */
+#cabecalho h2 {
+    font-family: var(--fonte-cursiva);
+    font-size: 3.5rem; 
+    font-weight: normal;
+    margin: 0; 
+    line-height: 1; /* Prende o limite invisível estritamente na ponta da letra */
+    
+    padding-top: 0.2em; 
+    padding-right: 0.15em;
+    padding-bottom: 0.1em; 
+
+    /* Transição de tamanho da CPU otimizada */
+    transition: font-size 0.3s ease;
+    will-change: font-size;
+
+    background: linear-gradient(
+        110deg, 
+        var(--laranja-frio) 40%, 
+        var(--rosa) 50%, 
+        var(--laranja-frio) 60%
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* === ESTADOS ENCOLHIDOS === */
+
+#cabecalho.encolhido {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    
+    border-bottom: 2px solid var(--laranja-frio);
+    box-shadow: 
+        0px 10px 20px rgba(37, 19, 4, 0.8), 
+        0px 2px 8px var(--laranja-frio),    
+        0px 0px 25px var(--laranja-frio);   
+}
+
+#cabecalho.encolhido h2 {
+    font-size: 2.2rem;
+}
+
+#galeria {
+    width: 100%;
+}
+
+#galeria-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50vh;
+    padding: 100vh 1.5rem 150vh 1.5rem;
+    overflow-x: hidden;
+}
+
+.item-galeria {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
+
+.item-galeria img {
+    width: 100%;
+    
+    /* MÁGICA DE ENQUADRAMENTO: Padroniza o tamanho das 4 fotos */
+    aspect-ratio: 4 / 5; /* Formato de retrato elegante */
+    object-fit: cover; /* Corta as sobras sem amassar as fotos */
+    
+    border-radius: 12px;
+    box-shadow: 0px 8px 16px rgba(37, 19, 4, 0.8);
+    display: block;
+    position: relative;
+    z-index: 2;
+}
+
+.legenda-foto {
+    background-color: var(--rosa);
+    color: var(--cor-fundo);
+    padding: 0.8rem;
+    text-align: center;
+    font-weight: bold;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    margin-top: -5px;
+    position: relative;
+    z-index: 2;
+    font-family: var(--fonte-cursiva);
+    font-size: 2.8rem;
+    text-transform: none;
+    font-weight: normal;
+}
+
+/* ==========================================
+   LEGENDAS DE TRANSIÇÃO (CAPÍTULOS DA GALERIA)
+=========================================== */
+.legenda-etapa {
+    position: absolute;
+    top: -20vh;
+    
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    
+    width: 85vw;
+    max-width: 400px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    padding: 1.2rem 2rem;
+    border-radius: 50%;
+    
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    line-height: 1;
+    color: var(--rosa);
+    font-family: var(--fonte-titulos);
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    z-index: 200;
+    pointer-events: none;
+    will-change: transform, opacity;
+    isolation: isolate;
+
+    /* Vidro quase neutro — sem branco demais pra não virar Frutiger Aero */
+    background-color: rgba(153, 0, 0, 0.18);
+
+    /* Blur leve: papel de parede continua visível através do vidro */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+
+    /* Borda externa: gradiente metálico que clareia no centro e escurece nas pontas */
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
+
+    /* Sombra com leve halo laranja — substitui o brilho branco do glassmorphism */
+    box-shadow:
+        0px 8px 24px rgba(37, 19, 4, 0.6),
+        0px 0px 12px rgba(217, 131, 89, 0.15),
+        inset 0px 0px 8px rgba(217, 131, 89, 0.06);
+
+    text-shadow: none;
+}
+
+/* Anel metálico externo via ::before
+   Gradiente angular simula metal: escuro → claro (centro) → escuro
+   border-radius herdado garante que acompanha a forma oval */
+/* Anel metálico externo via ::before */
+.legenda-etapa::before {
+    content: "";
+    position: absolute;
+    inset: -1.5px;
+    border-radius: inherit;
+    background: conic-gradient(
+        from 90deg,
+        rgba(217, 131, 89, 0.25) 0deg,
+        rgba(217, 131, 89, 0.95) 90deg,
+        rgba(217, 131, 89, 0.25) 180deg,
+        rgba(217, 131, 89, 0.95) 270deg,
+        rgba(217, 131, 89, 0.25) 360deg
+    );
+    
+    /* CORREÇÃO DO VS CODE: Propriedades Webkit mantidas para Safari/iOS */
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    
+    /* CORREÇÃO DO VS CODE: Propriedade Universal Padrão (W3C) adicionada para compatibilidade total */
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    
+    padding: 1.5px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Grade metálica via SVG inline:
+   - Linhas horizontais e verticais formando malha
+   - Cada linha tem gradiente próprio que some nas bordas
+   - Linhas do centro são mais brilhantes; as periféricas, mais sutis
+   - O clip-path oval do border-radius corta a grade nas bordas naturalmente */
+/* Grade metálica curva (Art Déco Estrutural) via SVG inline:
+   - 14 paths sólidos baseados em curvas cúbicas de Bézier.
+   - Centro absolutamente reto, curvando-se progressivamente ao tocar a borda.
+   - As linhas não somem, elas acompanham a topologia da oval de vidro. */
+/* Grade metálica Art Déco em SVG:
+   - Eixos centrais discretos.
+   - Acúmulo de tensão (ferrinhos) tanto no topo/base quanto nas laterais.
+   - preserveAspectRatio='none' garante que a malha estique perfeitamente 
+     em palavras com <br> (como Prato Principal) sem deixar buracos. */
+.legenda-etapa::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit; 
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 120' preserveAspectRatio='none'%3E%3Cg stroke='%23D98359' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3C!-- Eixos Centrais Mais Discretos --%3E%3Cpath d='M 200 0 L 200 120' stroke-width='1' opacity='0.3'/%3E%3Cpath d='M 0 60 L 400 60' stroke-width='1' opacity='0.3'/%3E%3C!-- Diamantes Centrais --%3E%3Cpath d='M 200 10 L 150 60 L 200 110 L 250 60 Z' stroke-width='1.5' opacity='0.4'/%3E%3Cpath d='M 200 25 L 170 60 L 200 95 L 230 60 Z' stroke-width='1' opacity='0.2'/%3E%3C!-- Acúmulo Vertical (Topo e Base) --%3E%3Cpath d='M 200 0 C 175 5, 165 30, 165 60 C 165 90, 175 115, 200 120' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M 200 0 C 225 5, 235 30, 235 60 C 235 90, 225 115, 200 120' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M 200 0 C 150 10, 130 30, 130 60 C 130 90, 150 110, 200 120' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M 200 0 C 250 10, 270 30, 270 60 C 270 90, 250 110, 200 120' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M 200 0 C 100 10, 60 30, 60 60 C 60 90, 100 110, 200 120' stroke-width='1' opacity='0.2'/%3E%3Cpath d='M 200 0 C 300 10, 340 30, 340 60 C 340 90, 300 110, 200 120' stroke-width='1' opacity='0.2'/%3E%3C!-- Acúmulo Horizontal (Pontas Laterais) --%3E%3Cpath d='M 0 60 C 30 50, 100 50, 200 50 C 300 50, 370 50, 400 60' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M 0 60 C 30 70, 100 70, 200 70 C 300 70, 370 70, 400 60' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M 0 60 C 30 35, 100 35, 200 35 C 300 35, 370 35, 400 60' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M 0 60 C 30 85, 100 85, 200 85 C 300 85, 370 85, 400 60' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M 0 60 C 30 20, 100 20, 200 20 C 300 20, 370 20, 400 60' stroke-width='1' opacity='0.2'/%3E%3Cpath d='M 0 60 C 30 100, 100 100, 200 100 C 300 100, 370 100, 400 60' stroke-width='1' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E");
+
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+.conjunto-foto {
+    will-change: transform; 
+}
+
+/* ==========================================
+   LOGO GIRATÓRIA (SELO DE BOAS-VINDAS)
+=========================================== */
+
+/* Precisamos garantir que a galeria seja o ponto de referência absoluto */
+#galeria {
+    width: 100%;
+    position: relative; 
+}
+
+.logo-hero {
+    position: absolute;
+    /* ABAIXAMOS A LOGO: Passou de 15vh para 25vh (mais longe do teto) */
+    top: 25vh; 
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    z-index: 10; 
+}
+
+.logo-giratoria {
+    /* 1. AUMENTO DE ESCALA */
+    width: 85vw; /* Subiu para ocupar mais a tela do celular */
+    max-width: 480px; /* Expandiu o limite para telas maiores */
+    
+    aspect-ratio: 1 / 1; 
+    border-radius: 50%;
+    
+    /* 2. O EIXO DE CALIBRAÇÃO (Ajuste o grau aqui) */
+    /* Mude esse valor (ex: 15deg, -20deg, 5deg) até a imagem ficar perfeitamente reta na tela de descanso */
+    transform: rotate(-15deg); 
+    
+    filter: 
+        drop-shadow(0px 0px 15px rgba(217, 131, 89, 0.6)) 
+        drop-shadow(0px 0px 5px rgba(194, 109, 131, 0.8));
+    
+    will-change: transform;
+}
+
+/* ==========================================
+   AJUSTES DE RODAPÉ (CORTANDO O VÁCUO)
+=========================================== */
+
+/* Remove margens quilométricas exclusivamente do último item (Sobremesa) */
+.item-galeria:last-child {
+    margin-bottom: 5vh; /* Mantém apenas um respiro mínimo antes do fim da tela */
+}
+
+/* Garante que o contêiner geral também não tenha preenchimentos fantasmas no piso */
+#galeria-container {
+    padding-bottom: 5vh; 
+}
+
