@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roda Gigante 6</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <section id="fachada">
+        
+        <div class="titulo-wrapper">
+            <h1>Roda Gigante<br>6</h1>
+            <span class="estrela-brilho"></span>
+        </div>
+
+        <p>Infelizmente este cardápio tem 2 restrições alimentares devido às alergias do chef. Quais são estes?</p>
+        
+        <div class="inputs-container">
+            <div class="input-wrapper">
+                <input type="text" id="restricao1" placeholder="Restrição 1" autocomplete="off">
+                <span class="luz-glow superior-esquerda"></span>
+                <span class="luz-glow superior-direita"></span>
+                <span class="luz-glow inferior-esquerda"></span>
+                <span class="luz-glow inferior-direita"></span>
+            </div>
+            
+            <div class="input-wrapper">
+                <input type="text" id="restricao2" placeholder="Restrição 2" autocomplete="off">
+                <span class="luz-glow superior-esquerda"></span>
+                <span class="luz-glow superior-direita"></span>
+                <span class="luz-glow inferior-esquerda"></span>
+                <span class="luz-glow inferior-direita"></span>
+            </div>
+        </div>
+
+        <button id="btn-acessar">Acessar Cardápio</button>
+        <p id="mensagem-erro" style="display: none;">As restrições não conferem.</p>
+    </section>
+
+        <section id="galeria" style="display: none;">
+        
+        <header id="cabecalho">
+            <div class="titulo-wrapper">
+                <h2>Roda Gigante<br>6</h2>
+                <span class="estrela-brilho"></span>
+            </div>
+        </header>
+        
+        <div class="logo-hero">
+            <img src="https://drive.google.com/thumbnail?id=1AKyWFl6gQ4iO8oKDbDN5V5P5Vaq1CiNA&sz=w2000" class="logo-giratoria" alt="Logo Roda Gigante">
+            </div>
+
+        <main id="galeria-container">
+            </main>
+        
+    </section>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
